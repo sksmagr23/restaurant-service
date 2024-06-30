@@ -1,0 +1,14 @@
+{% extends "users/base.html" %}
+{% block title %}Logout{% endblock %}
+{% block content %}
+<div class="form-container">
+    <p class="text-center">Are you sure you want to logout from your account?</p>
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        <div class="flex gap-4">
+        <button type="submit" class="form-button mt-4">Logout</button>
+        <a href="{% url 'home' %}" class="form-button width-full mt-4 bg-gray-500 hover:bg-gray-800 text-center">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
