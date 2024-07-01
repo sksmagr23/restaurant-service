@@ -1,5 +1,5 @@
 {% extends "users/base.html" %}
-{% block title %}Login{% endblock %}
+{% block title %}Serve King-Login{% endblock %}
 {% block content %}
 <div class="form-container">
     <h2 class="form-title">Login to your Account</h2>
@@ -13,7 +13,7 @@
             <label for="id_password">Password</label>
             {{ form.password }}
         </div>
-        <button type="submit" class="form-button">Login</button>
+        <button type="submit" class="form-button transition-all duration-300 transform">Login</button>
     </form>
     <p class="text-center text-lg mt-4">Don't have an account? <a href="{% url 'account_signup' %}" class="text-amber-900 hover:text-red-600 font-bold">Sign up</a></p>
 </div>

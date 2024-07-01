@@ -4,40 +4,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Restaurant Service{% endblock %}</title>
+    <title>{% block title %}Serve King{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body{
-            font-family: 'Times New Roman', Times, serif;
-        }
-
-        .bg-cover {
-            background-image: url('{% static "users/images/background.jpeg" %}');
+            font-family:'Courier New', Courier, monospace;
+            background-image: url('{% static "users/images/background.jpg" %}');
             background-size: cover;
             background-position: center;
-        }
-        .bg-overlay::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
+            background-repeat: repeat;
+            opacity: 0.92;
             z-index: -1;
+        }
+        .navbar{
+            background-color: rgba(94, 61, 33);
         }
         .form-container {
             max-width: 550px;
             margin: auto;
             background: rgba(255, 255, 255, 0.5);
             padding: 20px;
-            border-radius: 30px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
         .form-title {
-            font-size: 2.2em;
+            font-size: 2em;
             margin-bottom: 10px;
             text-align: center;
+            color: rgb(92, 52, 32);
+            font-weight: bold;
         }
         .form-field {
             margin-bottom: 15px;
@@ -50,8 +45,9 @@
         .form-field input {
             width: 100%;
             padding: 7px;
-            border: 1px solid #ccc;
+            border: 1px solid #d47b4e;
             border-radius: 10px;
+            color: #472b1d;
         }
         .form-button {
             display: block;
@@ -66,8 +62,12 @@
             cursor: pointer;
         }
         .form-button:hover {
-            background-color: #8B0000;
+            background-color: #4d2917;
         }
+        .form-button:active {
+            background-color: #2e180e;
+        }
+
         .errorlist {
             color: red;
             list-style-type: none;
@@ -75,24 +75,26 @@
         }
     </style>
 </head>
-<body class="bg-cover bg-overlay relative">
-    <nav class="bg-white shadow-lg">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between">
-                <a href="{% url 'home' %}" class="text-xl font-bold">Restaurant</a>
-                <div>
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'account_logout' %}" class="text-gray-700">Logout</a>
-                    {% else %}
-                        <a href="{% url 'account_login' %}" class="text-gray-700">Login</a>
-                        <a href="{% url 'account_signup' %}" class="ml-4 text-gray-700">SignUp</a>
-                    {% endif %}
-                </div>
-            </div>
+<body>
+    <nav class="navbar p-2.5 flex justify-between items-center">
+        <div class="text-2xl font-bold mx-5 text-yellow-100">THE SERVE KING EATERY</div>
+        <div class="text-xl font-semibold space-x-3 mx-5">
+            <a href="{% url 'home' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Home</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'menu' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Menu</a>
+            <a href="{% url 'account_logout' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Logout</a>
+            {% else %}
+                <a href="#" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200" onclick="alert('Please login/signup to access the menu'); return false;">Menu</a>
+                <a href="{% url 'account_login' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Login</a>
+                <a href="{% url 'account_signup' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Signup</a>
+            {% endif %}
         </div>
     </nav>
     <div class="container mx-auto px-4 py-8">
         {% block content %}{% endblock %}
     </div>
+    <footer class="navbar mt-5 p-1.5 text-center bottom-0 absolute w-screen">
+        <p class="text-yellow-100">&copy 2024 The_Serve_King. All rights reserved. </p>
+    </footer>    
 </body>
 </html>
