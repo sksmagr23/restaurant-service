@@ -1,6 +1,7 @@
 {% extends "users/base.html" %}
 {% block title %}Serve King-Logout{% endblock %}
 {% block content %}
+<div class="container mx-auto my-14 px-2 py-4">
 <div class="form-container">
     <p class="text-center text-md font-bold">Are you sure you want to logout from your account?</p>
     <form method="post" action="{% url 'account_logout' %}">
@@ -10,5 +11,6 @@
         <a href="{% url 'home' %}" class="form-button width-full mt-4 bg-gray-500 hover:bg-gray-800 text-center transition-all duration-300 transform">Cancel</a>
         </div>
     </form>
+</div>
 </div>
 {% endblock %}

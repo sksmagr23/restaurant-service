@@ -1,20 +1,137 @@
-{% extends 'users/base.html' %}
-
-{% block title %}Serve King-Menu{% endblock %}
-
+{% extends 'users/base.html' %} {% block title %}Serve King-Menu{% endblock %}
 {% block content %}
-<h1 class="text-3xl font-bold">Our Menu</h1>
-<form method="GET" class="mt-4">
-    <input type="text" name="q" placeholder="Search menu items" class="p-2 border rounded">
-    <button type="submit" class="p-2 bg-blue-500 text-white rounded">Search</button>
-</form>
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-8">
+<div class="container mx-auto my-16 px-2 py-4">
+  <h1 class="text-3xl font-bold mb-4 text-center card rounded-2xl">
+    OUR MENU
+  </h1>
+  <form method="GET" class="mt-2">
+    <input
+      type="text"
+      name="q"
+      placeholder="Search menu items"
+      class="px-1 border rounded"
+    />
+    <button type="submit" class="px-1 py-0 bg-orange-800 hover:bg-orange-950 text-white rounded transition-all duration-300 transform">
+      Search
+    </button>
+  </form>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-3"
+  >
     {% for item in menu_items %}
-    <div class="bg-white p-4 shadow-lg rounded-lg">
-        <h2 class="text-xl font-bold">{{ item.name }}</h2>
-        <p class="mt-2">{{ item.description }}</p>
-        <p class="mt-4 font-bold">${{ item.price }}</p>
-    </div>
+    <div
+      class="p-2 rounded-xl cursor-pointer card food-card transition-all duration-300 transform hover:scale-105 hover:bg-white"
+      data-name="{{ item.name }}"
+      data-description="{{ item.description }}"
+      data-price="{{ item.price }}"
+      data-image="{{ item.image.url }}"
+      data-rating="{{ item.rating}}"
+    >
+      {% if item.image %}
+      <img
+        src="{{ item.image.url }}"
+        alt="{{ item.name }}"
+        class="w-full h-44 object-cover rounded-t-lg"
+      />
+      {% endif %}
+      <div class="px-2 py-1">
+        <h2 class="text-xl font-bold text-red-900">{{ item.name }}</h2>
+        </div>
+        </div>
     {% endfor %}
+  </div>
 </div>
+
+<div
+  id="foodModal"
+  class="fixed inset-0 bg-gray-800 bg-opacity-60 overflow-y-auto h-full w-full hidden"
+>
+  <div
+    class="relative top-20 mx-auto p-4 border w-96 rounded-2xl card bg-gray-100 modal-content"
+  >
+    <div class="mt-2 text-center">
+      <div class="mx-auto flex items-center justify-center h-48 w-full">
+        <img id="modalImage" class="object-cover h-full w-full rounded-2xl" />
+      </div>
+      <h3
+        class="text-xl leading-4 font-bold text-red-900 mt-4 mb-2"
+        id="modalName"
+      ></h3>
+      <div class="flex justify-between">
+      <p class="text-gray-950 font-bold text-md" id="modalPrice"></p>
+      <div class="flex items-center justify-center mt-1" id="modalRating">
+                {% for i in "12345" %}
+                <svg class="h-3 w-3 fill-current text-gray-300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M10 15l-5.878 3.09 1.122-6.545-4.755-4.635 6.588-.957L10 0l2.923 5.953 6.588.957-4.755 4.635 1.122 6.545L10 15z" />
+                </svg>
+                {% endfor %}
+            </div>
+      </div>      
+      <p class="text-gray-700 text-sm mt-1" id="modalDescription"></p>
+      <div class="items-center px-3 py-2">
+        <button
+          id="closeModal"
+          class="px-4 py-2 text-white text-base font-medium rounded-md w-full shadow-xl bg-gray-500 hover:bg-gray-800 text-center transition-all duration-300 transform" 
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const foodCards = document.querySelectorAll(".food-card");
+    const modal = document.getElementById("foodModal");
+    const modalImage = document.getElementById("modalImage");
+    const modalName = document.getElementById("modalName");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalPrice = document.getElementById("modalPrice");
+    const modalRating = document.getElementById("modalRating");
+    const closeModal = document.getElementById("closeModal");
+
+    foodCards.forEach((card) => {
+      card.addEventListener("click", () => {
+        const name = card.getAttribute("data-name");
+        const description = card.getAttribute("data-description");
+        const price = card.getAttribute("data-price");
+        const image = card.getAttribute("data-image");
+        const rating = card.getAttribute("data-rating");
+
+        modalName.textContent = name;
+        modalDescription.textContent = description;
+        modalPrice.textContent = `$${price}`;
+        modalImage.src = image;
+
+        const stars = modalRating.querySelectorAll("svg");
+        stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add("text-yellow-600");
+          star.classList.remove("text-gray-300");
+        } else {
+          star.classList.add("text-gray-300");
+          star.classList.remove("text-yellow-600");
+        }
+      });
+
+        modal.classList.remove("hidden");
+        modal.style.display = "block";
+      });
+    });
+
+    closeModal.addEventListener("click", () => {
+      modal.classList.add("hidden");
+      modal.style.display = "none";
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.add("hidden");
+        modal.style.display = "none";
+      }
+    });
+  });
+</script>
+
 {% endblock %}

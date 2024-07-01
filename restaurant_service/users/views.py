@@ -10,7 +10,7 @@ def home(request):
 def menu(request):
     query = request.GET.get('q')
     if query:
-        menu_items = MenuItem.objects.filter(Q(name_icontains=query) | Q(description_icontains=query))
+        menu_items = MenuItem.objects.filter(name__icontains=query)
     else:
         menu_items = MenuItem.objects.all()
     return render(request, 'users/menu.html', {'menu_items': menu_items})
