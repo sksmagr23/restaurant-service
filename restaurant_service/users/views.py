@@ -14,3 +14,7 @@ def menu(request):
     else:
         menu_items = MenuItem.objects.all()
     return render(request, 'users/menu.html', {'menu_items': menu_items})
+
+@login_required
+def cart_page(request):
+    return render(request, 'users/cart.html')
