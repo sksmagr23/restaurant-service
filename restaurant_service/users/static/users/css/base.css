@@ -1,0 +1,95 @@
+body {
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-image: url('../images/bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat;
+  opacity: 0.95;
+  z-index: -1;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+.navbar {
+  background-color: rgba(94, 61, 33);
+}
+.form-container {
+  max-width: 550px;
+  margin: auto;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.card {
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.circle {
+  border-radius: 50%;
+}
+.form-title {
+  font-size: 2em;
+  margin-bottom: 10px;
+  text-align: center;
+  color: rgb(92, 52, 32);
+  font-weight: bold;
+}
+.form-field {
+  margin-bottom: 15px;
+}
+.form-field label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.form-field input {
+  width: 100%;
+  padding: 7px;
+  border: 1px solid #d47b4e;
+  border-radius: 10px;
+  color: #472b1d;
+}
+.form-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #8b4513;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.form-button:hover {
+  background-color: #4d2917;
+}
+.form-button:active {
+  background-color: #2e180e;
+}
+
+.errorlist {
+  color: red;
+  list-style-type: none;
+  padding-left: 0;
+}
+.hidden {
+  display: none;
+}
+#foodModal {
+  display: none;
+}
+#foodModal .modal-content {
+  animation: slide-down 0.3s ease;
+}
+@keyframes slide-down {
+  from {
+    transform: translateY(-200%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

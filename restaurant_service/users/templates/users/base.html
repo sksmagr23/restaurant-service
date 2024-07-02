@@ -4,280 +4,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% block title %}Serve King{% endblock %}</title>
+    <title>
+      {% block title %}
+        Serve King
+      {% endblock %}
+    </title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      body {
-        font-family: "Courier New", Courier, monospace;
-        background-image: url('{% static "users/images/bg.jpg" %}');
-        background-size: cover;
-        background-position: center;
-        background-repeat: repeat;
-        opacity: 0.95;
-        z-index: -1;
-      }
-      ::-webkit-scrollbar {
-        display: none;
-      }
-      .navbar {
-        background-color: rgba(94, 61, 33);
-      }
-      .form-container {
-        max-width: 550px;
-        margin: auto;
-        background: rgba(255, 255, 255, 0.5);
-        padding: 20px;
-        border-radius: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      }
-      .card{
-        background: rgba(255, 255, 255, 0.5);
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-      }
-      .circle{
-        border-radius: 50%;
-      }
-      .form-title {
-        font-size: 2em;
-        margin-bottom: 10px;
-        text-align: center;
-        color: rgb(92, 52, 32);
-        font-weight: bold;
-      }
-      .form-field {
-        margin-bottom: 15px;
-      }
-      .form-field label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 4px;
-      }
-      .form-field input {
-        width: 100%;
-        padding: 7px;
-        border: 1px solid #d47b4e;
-        border-radius: 10px;
-        color: #472b1d;
-      }
-      .form-button {
-        display: block;
-        width: 100%;
-        padding: 10px;
-        background-color: #8b4513;
-        color: white;
-        font-size: 1em;
-        font-weight: bold;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      .form-button:hover {
-        background-color: #4d2917;
-      }
-      .form-button:active {
-        background-color: #2e180e;
-      }
-
-      .errorlist {
-        color: red;
-        list-style-type: none;
-        padding-left: 0;
-      }
-      .hidden {
-        display: none;
-      }
-      #foodModal {
-        display: none;
-      }
-      #foodModal .modal-content {
-        animation: slide-down 0.3s ease;
-      }
-      @keyframes slide-down {
-        from {
-          transform: translateY(-200%);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="{% static 'users/css/base.css' %}" />
   </head>
   <body>
-    <nav
-      class="fixed top-0 left-0 right-0 navbar p-2.5 flex justify-between items-center z-20"
-    >
-      <div class="text-2xl font-bold mx-5 text-yellow-100">
-        THE SERVE KING EATERY
-      </div>
+    <nav class="fixed top-0 left-0 right-0 navbar p-2.5 flex justify-between items-center z-20">
+      <div class="text-2xl font-bold mx-5 text-yellow-100">THE SERVE KING EATERY</div>
       <div class="block lg:hidden">
-        <button
-          id="menu-button"
-          class="text-yellow-200 hover:text-white focus:outline-none items-center"
-        >
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
+        <button id="menu-button" class="text-yellow-200 hover:text-white focus:outline-none items-center">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         </button>
       </div>
-      <div
-        id="menu"
-        class="hidden lg:flex lg:items-center lg:mx-5 lg:text-xl lg:font-semibold lg:space-x-4"
-      >
-        <a
-          href="{% url 'home' %}"
-          class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200"
-          >Home</a
-        >
+      <div id="menu" class="hidden lg:flex lg:items-center lg:mx-5 lg:text-xl lg:font-semibold lg:space-x-4">
+        <a href="{% url 'home' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Home</a>
         {% if user.is_authenticated %}
-        <a
-          href="{% url 'menu' %}"
-          class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200"
-          >Menu</a
-        >
-        <a
-          href="{% url 'cart' %}"
-          class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200"
-          >MyCart</a
-        >
-        <a
-          href="{% url 'account_logout' %}"
-          class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200"
-          >Logout</a
-        >
-        <span class="text-md text-yellow-200 font-serif italic flex items-center hover:text-white"><svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-          </svg> {{user.username}} </span>
+          <a href="{% url 'menu' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Menu</a>
+          <a href="{% url 'cart' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">MyCart</a>
+          <a href="{% url 'account_logout' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Logout</a>
+          <span class="text-md text-yellow-200 font-serif italic flex items-center hover:text-white">
+            <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+            </svg> {{ user.username }}
+          </span>
         {% else %}
-        <a
-          href="#"
-          class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200"
-          onclick="alert('Please login/signup to access the menu'); return false;"
-          >Menu</a
-        >
-        <a
-          href="{% url 'account_login' %}"
-          class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200"
-          >Login</a
-        >
-        <a
-          href="{% url 'account_signup' %}"
-          class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200"
-          >Signup</a
-        >
+          <a href="#" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200" onclick="alert('Please login/signup to access the menu'); return false;">Menu</a>
+          <a href="{% url 'account_login' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Login</a>
+          <a href="{% url 'account_signup' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Signup</a>
         {% endif %}
       </div>
     </nav>
-    <div
-      id="mobile-menu"
-      class="lg:hidden hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center space-y-3"
-    >
-      <a
-        href="{% url 'home' %}"
-        class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold"
-        >Home</a
-      >
+    <div id="mobile-menu" class="lg:hidden hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex flex-col items-center justify-center space-y-3">
+      <a href="{% url 'home' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Home</a>
       {% if user.is_authenticated %}
-      <a
-        href="{% url 'menu' %}"
-        class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold"
-        >Menu</a
-      >
-      <a
-        href="{% url 'cart' %}"
-        class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold"
-          >MyCart</a
-        >
-      <a
-        href="{% url 'account_logout' %}"
-        class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold"
-        >Logout</a
-      >
-      <span class="block text-3xl text-yellow-200 flex items-center font-bold">
-        <svg class="w-7 h-7 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-        </svg>
-        {{ user.username }}
-      </span>
+        <a href="{% url 'menu' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Menu</a>
+        <a href="{% url 'cart' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">MyCart</a>
+        <a href="{% url 'account_logout' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Logout</a>
+        <span class="block text-3xl text-yellow-200 flex items-center font-bold">
+          <svg class="w-7 h-7 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+          </svg>
+          {{ user.username }}
+        </span>
       {% else %}
-      <a
-        href="#"
-        class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold"
-        onclick="alert('Please login/signup to access the menu'); return false;"
-        >Menu</a
-      >
-      <a
-        href="{% url 'account_login' %}"
-        class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold"
-        >Login</a
-      >
-      <a
-        href="{% url 'account_signup' %}"
-        class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold"
-        >Signup</a
-      >
+        <a href="#" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold" onclick="alert('Please login/signup to access the menu'); return false;">Menu</a>
+        <a href="{% url 'account_login' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Login</a>
+        <a href="{% url 'account_signup' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Signup</a>
       {% endif %}
-      <button
-        id="close-menu"
-        class="text-yellow-100 focus:outline-none"
-      >
-        <svg
-          class="w-7 h-7"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
+      <button id="close-menu" class="text-yellow-100 focus:outline-none">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
     </div>
-     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const menuButton = document.getElementById("menu-button");
-        const closeButton = document.getElementById("close-menu");
-        const mobileMenu = document.getElementById("mobile-menu");
 
-        menuButton.addEventListener("click", () => {
-          mobileMenu.classList.remove("hidden");
-        });
+    {% block content %}
+    {% endblock %}
 
-        closeButton.addEventListener("click", () => {
-          mobileMenu.classList.add("hidden");
-        });
-
-        window.addEventListener("click", (e) => {
-          if (e.target === mobileMenu) {
-            mobileMenu.classList.add("hidden");
-          }
-        });
-      });
-    </script>
-
-      {% block content %}{% endblock %}
-    <footer
-      class="navbar mt-6 p-1.5 text-center bottom-0 fixed left-0 right-0 w-screen"
-    >
-      <p class="text-yellow-100">
-        &copy 2024 The_Serve_King. All rights reserved.
-      </p>
+    <footer class="navbar mt-6 p-1.5 text-center bottom-0 fixed left-0 right-0 w-screen">
+      <p class="text-yellow-100">&copy 2024 The_Serve_King. All rights reserved. Created by Saksham Agrawal</p>
     </footer>
+    <script src="{% static 'users/js/nav.js' %}"></script>
+    <script src="{% static 'users/js/modal.js' %}"></script>
+    <script src="{% static 'users/js/cart.js' %}"></script>
   </body>
 </html>
