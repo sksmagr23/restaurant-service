@@ -25,8 +25,9 @@
          </div>     
 
          {% endfor %}
-         <a href="{% url 'checkout' %}" class="px-3 py-2 text-white text-2xl font-medium rounded-xl w-full shadow-xl bg-green-600 hover:bg-green-800 text-center transition-all duration-300 transform">Checkout</a>
-
+         <div class="text-center mt-8">
+         <a href="{% url 'checkout' %}" class="px-6 py-3 text-white text-2xl font-medium rounded-3xl shadow-2xl bg-green-700 hover:bg-green-950 text-center transition-all duration-300 transform">Checkout</a>
+         </div>
       {% else %}
          <h4> Your cart is empty </h4> 
       {% endif %}

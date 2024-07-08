@@ -10,5 +10,5 @@ def index(request):
     for item in cartitems:
         total_price = total_price + item.item.price * item.item_qty
 
-    context = {}
+    context = {'cartitems':cartitems, 'total_price':total_price}
     return render(request, "users/checkout.html", context)
