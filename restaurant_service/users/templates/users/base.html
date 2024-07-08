@@ -11,6 +11,9 @@
     </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'users/css/base.css' %}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/alertifyjs/build/alertify.min.js"></script>
   </head>
   <body>
     <nav class="fixed top-0 left-0 right-0 navbar p-2.5 flex justify-between items-center z-20">
@@ -34,7 +37,7 @@
             </svg> {{ user.username }}
           </span>
         {% else %}
-          <a href="#" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200" onclick="alert('Please login/signup to access the menu'); return false;">Menu</a>
+          <a href="#" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200" onclick="alertify.alert('Please login/signup to access the menu'); return false;">Menu</a>
           <a href="{% url 'account_login' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Login</a>
           <a href="{% url 'account_signup' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Signup</a>
         {% endif %}
@@ -53,7 +56,7 @@
           {{ user.username }}
         </span>
       {% else %}
-        <a href="#" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold" onclick="alert('Please login/signup to access the menu'); return false;">Menu</a>
+        <a href="#" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold" onclick="alertify.alert('Please login/signup to access the menu'); return false;">Menu</a>
         <a href="{% url 'account_login' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Login</a>
         <a href="{% url 'account_signup' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Signup</a>
       {% endif %}
@@ -72,6 +75,5 @@
     </footer>
     <script src="{% static 'users/js/nav.js' %}"></script>
     <script src="{% static 'users/js/modal.js' %}"></script>
-    <script src="{% static 'users/js/cart.js' %}"></script>
   </body>
 </html>

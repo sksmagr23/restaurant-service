@@ -5,9 +5,31 @@
 {% block content %}
   <div class="container mx-auto my-14 px-2 py-4">
     <h1 class="text-3xl font-bold mb-4 text-center card rounded-2xl">YOUR CART</h1>
-    <div class="mt-4">
-      <ul id="cartItems"></ul>
-      <p id="emptyCartMessage" class="hidden font-bold">Your cart is empty.</p>
+    <div class="mt-4 mx-auto cartdata">
+      {% if cart %}
+         {% for item in cart %}
+         <div class="flex items-center justify-between card p-2.5 rounded-3xl mb-3 hover:shadow-2xl transition duration-300 mx-auto cart-item">
+            <div class="flex items-center space-x-4">
+                  <img src="{{item.item.image.url}}" alt="{{item.item.name}}" class="border border-gray-400 w-14 h-14 object-cover circle shadow-md">
+                  <div class="ml-2">
+                      <h3 class="text-lg font-semibold text-orange-800">{{ item.item.name}}</h3>
+                      <p class="text-sm text-gray-800">${{item.item.price}}</p>
+                  </div>
+              </div>
+              <div class="flex items-center space-x-4">
+                <input type="hidden" value="{{ item.item.id }}" class="item_id">
+                {% csrf_token %}
+                  <input type="number" min="1" value="{{ item.item_qty }}" name="item_qty" class="item_qty w-12 h-5 text-center border border-gray-400 bg-gray-300 changeQuantity">
+                  <button class="delete-cart-item ml-2 bg-red-700 text-white px-1 py-1 rounded text-white text-base font-medium rounded-md w-full shadow-xl hover:bg-red-950 text-center transition-all duration-300 transform text-sm " data-id="${item.id}">Remove</button>
+              </div>
+         </div>     
+
+         {% endfor %}
+         <a href="{% url 'checkout' %}" class="px-3 py-2 text-white text-2xl font-medium rounded-xl w-full shadow-xl bg-green-600 hover:bg-green-800 text-center transition-all duration-300 transform">Checkout</a>
+
+      {% else %}
+         <h4> Your cart is empty </h4> 
+      {% endif %}
     </div>
   </div>
 {% endblock %}

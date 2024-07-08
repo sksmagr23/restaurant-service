@@ -6,9 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalDescription = document.getElementById("modalDescription");
   const modalPrice = document.getElementById("modalPrice");
   const modalRating = document.getElementById("modalRating");
-  const addToCartButton = document.getElementById("addToCartButton");
   const closeModal = document.getElementById("closeModal");
-
+  const item_id = document.querySelector('.item_id');
   let currentMenuItem = null;
 
   foodCards.forEach((card) => {
@@ -24,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
       modalDescription.textContent = description;
       modalPrice.textContent = `$${price}`;
       modalImage.src = image;
+      item_id.value = menuItemId
       currentMenuItem = {
         id: menuItemId,
         name,
@@ -49,21 +49,68 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  addToCartButton.addEventListener("click", () => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const itemIndex = cart.findIndex((item) => item.id === currentMenuItem.id);
-    if (itemIndex > -1) {
-      cart[itemIndex].quantity += 1;
-    } else {
-      currentMenuItem.quantity = 1;
-      cart.push(currentMenuItem);
-    }
-    localStorage.setItem("cart", JSON.stringify(cart));
-    alert(
-      "Item added to Cart successfully! , view the cart to modify item quantity"
-    );
-    modal.classList.add("hidden");
-  });
+  $('#addToCartButton').click(function (e) {
+        e.preventDefault();
+        var item_id = document.querySelector('.item_id').value;
+        var item_qty = document.querySelector('.item_qty').value;
+        console.log(item_id, item_qty);
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        $.ajax({
+          method: "POST",
+          url: "/add-to-cart",
+          data: {
+            'item_id':item_id,
+            'item_qty':item_qty,
+            csrfmiddlewaretoken: token
+          },
+          success: function (response) {
+            alertify.success(response.status)
+          }
+        });
+      })
+
+  $('.changeQuantity').on('change', function (e) {
+        e.preventDefault();
+        var item_id = $(this).siblings('.item_id').val();
+        var item_qty = $(this).val();
+        console.log(item_id, item_qty);
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+        $.ajax({
+            method: "POST",
+            url: "/update-cart",
+            data: {
+                'item_id': item_id,
+                'item_qty': item_qty,
+                csrfmiddlewaretoken: token
+            },
+            success: function (response) {
+                // alertify.success(response.status);
+            }
+        });
+      });
+      
+
+  $(document).on('click', '.delete-cart-item', function (e) { 
+        e.preventDefault();
+
+        var item_id = $(this).siblings('.item_id').val();
+        var token = $('input[name=csrfmiddlewaretoken]').val();
+
+        $.ajax({
+          method: "POST",
+          url: "delete-cart-item",
+          data: {
+            'item_id': item_id,
+            csrfmiddlewaretoken: token
+          },
+          success: function (response) {
+             alertify.success(response.status);
+             $('.cartdata').load(location.href + " .cartdata");
+          }
+        });
+        
+      });
+
 
   closeModal.addEventListener("click", () => {
     modal.classList.add("hidden");

@@ -70,7 +70,10 @@
             </div>
       </div>      
       <p class="text-gray-800 text-sm mt-1" id="modalDescription"></p>
-      <div class="items-center p-2 flex space-x-4">
+      <div class="items-center px-1 py-2 flex space-x-4">
+        {% csrf_token %}
+        <input type="hidden" value="{{ item.id }}" class="item_id">
+        <input type="number" min="1" value="1" name="item_qty" class="item_qty w-16 text-center border border-gray-400 bg-gray-300">
         <button
           id="addToCartButton"
           class="px-3 py-2 text-white text-base font-medium rounded-md w-full shadow-xl bg-green-600 hover:bg-green-800 text-center transition-all duration-300 transform" 
