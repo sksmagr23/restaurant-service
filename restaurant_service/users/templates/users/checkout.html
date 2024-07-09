@@ -5,7 +5,7 @@
 {% block content %}
 <div class="container mx-auto my-14 px-2 py-4">
     <h1 class="text-2xl font-bold mb-5 text-center card rounded-2xl">CHECKOUT</h1>
-    <form action="{% url 'placeorder' %}" method="POST">
+    <form id="checkout-form" action="{% url 'placeorder' %}" method="POST">
       {% csrf_token %}
      <div class="p-6 card shadow-xl rounded-2xl">
       <h6 class="text-lg font-bold mb-2">BASIC DETAILS</h6>
@@ -66,13 +66,24 @@
           <span class="text-xl font-semibold">Rs. {{ total_price }}</span>
         </div>
         <div class="mt-6 flex items-center gap-5 mx-8">
-          <button type="submit" class="w-full block text-center bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-1 rounded-xl transition-all duration-300 transform">Confirm Order</button> 
+          <button type="button" onclick="confirmOrder()" class="w-full block text-center bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-1 rounded-xl transition-all duration-300 transform">Place Order</button> 
           <a href="{% url 'cart' %}" class="w-full block text-center bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-2 rounded-xl transition-all duration-300 transform">Back to Cart</a>
         </div>
       {% else %}
-         <h4 class="text-center text-lg font-semibold">Your cart is empty</h4> 
+         <h4 class="text-center text-xl font-semibold">Your cart is empty</h4> 
       {% endif %}
       </div>
     </form> 
 </div>
+<script>
+  function confirmOrder() {
+    alertify.confirm("Order Confirmation", "Do you want to place the order?",
+      function() {
+        document.getElementById("checkout-form").submit();
+      },
+      function() {
+        alertify.error('Order is not placed');
+      });
+  }
+</script>
 {% endblock %}

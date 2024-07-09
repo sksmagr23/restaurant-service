@@ -1,0 +1,33 @@
+{% extends 'users/base.html' %}
+{% block title %}
+  Serve King - MyOrders
+{% endblock %}
+{% block content %}
+<div class="container mx-auto my-14 px-2 py-4">
+    <h1 class="text-3xl font-bold mb-6 text-center card rounded-2xl">MY ORDERS</h1>
+    <div class="p-4 card shadow-xl rounded-2xl">
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse border-2 border-gray-500 mt-3">
+            <thead>
+                <tr class="bg-orange-200">
+                    <th class="px-2 py-2 border-2 border-gray-400">Order Id</th> 
+                    <th class="px-2 py-2 border-2 border-gray-400">Order Date</th> 
+                    <th class="px-2 py-2 border-2 border-gray-400">Total Price</th>
+                    <th class="px-2 py-2 border-2 border-gray-400">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in orders %} 
+                 <tr class="border-2 border-gray-400 bg-orange-100">
+                    <td class="px-2 py-2 border-2 border-gray-400 text-center">Order#{{item.id }}</td>
+                    <td class="px-2 py-2 border-2 border-gray-400 text-center">{{item.created_at }}</td>
+                    <td class="px-2 py-2 border-2 border-gray-400 text-center">Rs.{{item.total_price }}</td>
+                    <td class="card px-2 py-2 border-2 border-gray-400 text-center"><a href="{% url 'orderview' item.id %}" class="block text-center bg-amber-800 hover:bg-amber-950 text-white font-bold py-1 px-1 rounded-2xl transition-all duration-300 transform">View</a></td>
+                 </tr>
+                {% endfor%} 
+            </tbody>    
+        </table> 
+      </div>   
+      </div>
+</div>
+{% endblock %} 

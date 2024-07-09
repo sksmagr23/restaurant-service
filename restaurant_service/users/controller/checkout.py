@@ -1,5 +1,5 @@
 from django.http.response import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponse
 from django.contrib import messages
 from users.models import Cart, Order, OrderItem, Profile
 from django.contrib.auth.models import User
@@ -65,4 +65,3 @@ def placeorder(request):
         messages.success(request, "Your order has been placed successfully")     
 
     return redirect('/menu')    
-

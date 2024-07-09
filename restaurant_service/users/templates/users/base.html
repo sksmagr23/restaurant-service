@@ -30,6 +30,7 @@
         {% if user.is_authenticated %}
           <a href="{% url 'menu' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Menu</a>
           <a href="{% url 'cart' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">MyCart</a>
+          <a href="{% url 'myorders' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">MyOrders</a>
           <a href="{% url 'account_logout' %}" class="text-xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200">Logout</a>
           <span class="text-md text-yellow-200 font-serif italic flex items-center hover:text-white">
             <svg class="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -48,6 +49,7 @@
       {% if user.is_authenticated %}
         <a href="{% url 'menu' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Menu</a>
         <a href="{% url 'cart' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">MyCart</a>
+        <a href="{% url 'myorders' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">My Orders</a>
         <a href="{% url 'account_logout' %}" class="block text-2xl text-white hover:text-orange-400 transition-all duration-300 transform active:text-yellow-200 font-bold">Logout</a>
         <span class="block text-3xl text-yellow-200 flex items-center font-bold">
           <svg class="w-7 h-7 mr-1" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -73,7 +75,15 @@
     <footer class="navbar mt-6 p-1.5 text-center bottom-0 fixed left-0 right-0 w-screen">
       <p class="text-yellow-100">&copy 2024 The_Serve_King. All rights reserved. Created by Saksham Agrawal</p>
     </footer>
+    <script>
+      alertify.set('notifier', 'position', 'bottom-right');
+
+      {% for msg in messages %}
+             alertify.success('{{ msg }}')
+      {% endfor %}       
+
+    </script>  
     <script src="{% static 'users/js/nav.js' %}"></script>
-    <script src="{% static 'users/js/modal.js' %}"></script>
+    <script src="{% static 'users/js/logic.js' %}"></script>
   </body>
 </html>
