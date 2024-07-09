@@ -7,4 +7,7 @@ class MenuItemAdmin(admin.ModelAdmin):
     list_filter = ('rating',)
     search_fields = ('name', 'description')
 
-admin.site.register(Cart)    
+admin.site.register(Cart)
+admin.site.register(Order)
+admin.site.register(OrderItem)  
+admin.site.register(Profile)  
